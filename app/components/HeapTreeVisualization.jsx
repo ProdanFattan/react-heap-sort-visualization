@@ -28,7 +28,8 @@ export const HeapTreeVisualization = ({
   const renderEdge = useCallback(
     (parentIndex, childIndex, parentPos, childPos) => {
       const isSwappingEdge =
-        swappingNodes.includes(parentIndex) && swappingNodes.includes(childIndex);
+        swappingNodes.includes(parentIndex) &&
+        swappingNodes.includes(childIndex);
       const isComparingEdge =
         comparingNodes.includes(parentIndex) &&
         comparingNodes.includes(childIndex);
@@ -36,15 +37,27 @@ export const HeapTreeVisualization = ({
         highlighted.includes(parentIndex) && highlighted.includes(childIndex);
 
       const strokeColor = isSwappingEdge
-        ? darkMode ? "stroke-green-400" : "stroke-green-500"
+        ? darkMode
+          ? "stroke-green-400"
+          : "stroke-green-500"
         : isComparingEdge
-          ? darkMode ? "stroke-yellow-400" : "stroke-yellow-500"
+          ? darkMode
+            ? "stroke-yellow-400"
+            : "stroke-yellow-500"
           : isHighlightedEdge
-            ? darkMode ? "stroke-cyan-400" : "stroke-blue-500"
-            : darkMode ? "stroke-slate-700" : "stroke-slate-300";
+            ? darkMode
+              ? "stroke-cyan-400"
+              : "stroke-blue-500"
+            : darkMode
+              ? "stroke-slate-700"
+              : "stroke-slate-300";
 
-      const strokeWidth = isSwappingEdge || isComparingEdge ? 4 : TREE_LAYOUT.EDGE_WIDTH_DEFAULT;
-      const opacity = isSwappingEdge || isComparingEdge || isHighlightedEdge ? "opacity-100" : "opacity-40";
+      const strokeWidth =
+        isSwappingEdge || isComparingEdge ? 4 : TREE_LAYOUT.EDGE_WIDTH_DEFAULT;
+      const opacity =
+        isSwappingEdge || isComparingEdge || isHighlightedEdge
+          ? "opacity-100"
+          : "opacity-40";
 
       return (
         <g key={`line-group-${parentIndex}-${childIndex}`}>
@@ -74,7 +87,7 @@ export const HeapTreeVisualization = ({
         </g>
       );
     },
-    [swappingNodes, comparingNodes, highlighted, darkMode]
+    [swappingNodes, comparingNodes, highlighted, darkMode],
   );
 
   const renderLevel = (startIndex, levelSize, level) => {

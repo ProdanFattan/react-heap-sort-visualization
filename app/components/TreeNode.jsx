@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 
 // Helper function to get node className based on state
 const getNodeClassName = (isSwapping, isComparing, isHighlighted, darkMode) => {
-  const baseClasses = "relative flex flex-col items-center justify-center w-20 h-20 rounded-xl cursor-pointer transition-all duration-500";
+  const baseClasses =
+    "relative flex flex-col items-center justify-center w-20 h-20 rounded-xl cursor-pointer transition-all duration-500";
 
   if (isSwapping) {
     return `${baseClasses} ${
@@ -66,24 +67,45 @@ export const TreeNode = ({
 
   return (
     <motion.div
-      initial={{ scale: 0, opacity: 0, rotateZ: -180 }}
+      initial={{ scale: 1, opacity: 0 }}
       animate={{
-        scale: isExtracting ? 0.8 : isSwapping ? 1.15 : isComparing ? 1.08 : isHighlighted ? 1.1 : 1,
+        scale: isExtracting
+          ? 0.8
+          : isSwapping
+            ? 1.15
+            : isComparing
+              ? 1.08
+              : isHighlighted
+                ? 1.1
+                : 1,
         opacity: isExtracting ? 0.5 : 1,
         rotateZ: isSwapping ? [0, -5, 5, -5, 0] : 0,
         rotateY: isComparing ? [0, 10, -10, 0] : 0,
       }}
-      exit={{ scale: 0, opacity: 0, rotateZ: 180 }}
+      exit={{ scale: 1, opacity: 0 }}
       transition={{
-        type: "spring",
-        stiffness: isSwapping ? 400 : 350,
-        damping: isSwapping ? 18 : 22,
-        duration: 0.6,
+        default: {
+          type: "tween",
+          duration: 0.5,
+          ease: "easeOut",
+        },
+        scale: {
+          type: "tween",
+          duration: 0.5,
+          ease: "easeOut",
+        },
+        opacity: {
+          type: "tween",
+          duration: 0.5,
+          ease: "easeOut",
+        },
         rotateZ: {
+          type: "tween",
           duration: 0.6,
           ease: "easeInOut",
         },
         rotateY: {
+          type: "tween",
           duration: 0.5,
           ease: "easeInOut",
         },
@@ -94,7 +116,12 @@ export const TreeNode = ({
         transition: { duration: 0.2 },
       }}
       onClick={() => onClick?.(person, index)}
-      className={getNodeClassName(isSwapping, isComparing, isHighlighted, darkMode)}
+      className={getNodeClassName(
+        isSwapping,
+        isComparing,
+        isHighlighted,
+        darkMode,
+      )}
     >
       <div className={`text-xs font-bold ${getTextColor(darkMode, isActive)}`}>
         ID: {person.personId}
@@ -111,9 +138,7 @@ export const TreeNode = ({
       >
         {person.weight}
       </motion.div>
-      <div className={`text-xs ${getUnitColor(darkMode, isActive)}`}>
-        kg
-      </div>
+      <div className={`text-xs ${getUnitColor(darkMode, isActive)}`}>kg</div>
     </motion.div>
   );
 };
