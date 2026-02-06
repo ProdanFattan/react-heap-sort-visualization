@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 import { TreeNode } from "./TreeNode";
 import { TREE_LAYOUT } from "../utils/animationConfig";
 
@@ -25,47 +25,50 @@ export const HeapTreeVisualization = ({
   );
 
   // Helper function to render a single edge (DRY - eliminates duplication)
-  const renderEdge = (parentIndex, childIndex, parentPos, childPos) => {
-    const isSwappingEdge =
-      swappingNodes.includes(parentIndex) && swappingNodes.includes(childIndex);
-    const isComparingEdge =
-      comparingNodes.includes(parentIndex) &&
-      comparingNodes.includes(childIndex);
-    const isHighlightedEdge =
-      highlighted.includes(parentIndex) && highlighted.includes(childIndex);
+  const renderEdge = useCallback(
+    (parentIndex, childIndex, parentPos, childPos) => {
+      const isSwappingEdge =
+        swappingNodes.includes(parentIndex) && swappingNodes.includes(childIndex);
+      const isComparingEdge =
+        comparingNodes.includes(parentIndex) &&
+        comparingNodes.includes(childIndex);
+      const isHighlightedEdge =
+        highlighted.includes(parentIndex) && highlighted.includes(childIndex);
 
-    return (
-      <line
-        key={`line-${parentIndex}-${childIndex}`}
-        x1={`${parentPos.x}%`}
-        y1={parentPos.y}
-        x2={`${childPos.x}%`}
-        y2={childPos.y}
-        className={`${
-          isSwappingEdge
-            ? darkMode
-              ? "stroke-green-400"
-              : "stroke-green-500"
-            : isComparingEdge
+      return (
+        <line
+          key={`line-${parentIndex}-${childIndex}`}
+          x1={`${parentPos.x}%`}
+          y1={parentPos.y}
+          x2={`${childPos.x}%`}
+          y2={childPos.y}
+          className={`${
+            isSwappingEdge
               ? darkMode
-                ? "stroke-yellow-400"
-                : "stroke-yellow-500"
-              : isHighlightedEdge
+                ? "stroke-green-400"
+                : "stroke-green-500"
+              : isComparingEdge
                 ? darkMode
-                  ? "stroke-cyan-400"
-                  : "stroke-blue-500"
-                : darkMode
-                  ? "stroke-slate-700"
-                  : "stroke-slate-300"
-        } transition-all duration-300`}
-        strokeWidth={
-          isSwappingEdge || isComparingEdge
-            ? TREE_LAYOUT.EDGE_WIDTH_HIGHLIGHTED
-            : TREE_LAYOUT.EDGE_WIDTH_DEFAULT
-        }
-      />
-    );
-  };
+                  ? "stroke-yellow-400"
+                  : "stroke-yellow-500"
+                : isHighlightedEdge
+                  ? darkMode
+                    ? "stroke-cyan-400"
+                    : "stroke-blue-500"
+                  : darkMode
+                    ? "stroke-slate-700"
+                    : "stroke-slate-300"
+          } transition-all duration-300`}
+          strokeWidth={
+            isSwappingEdge || isComparingEdge
+              ? TREE_LAYOUT.EDGE_WIDTH_HIGHLIGHTED
+              : TREE_LAYOUT.EDGE_WIDTH_DEFAULT
+          }
+        />
+      );
+    },
+    [swappingNodes, comparingNodes, highlighted, darkMode]
+  );
 
   const renderLevel = (startIndex, levelSize, level) => {
     const nodes = [];
@@ -126,14 +129,7 @@ export const HeapTreeVisualization = ({
     }
 
     return result;
-  }, [
-    heap.length,
-    swappingNodes,
-    comparingNodes,
-    highlighted,
-    darkMode,
-    getNodePosition,
-  ]);
+  }, [heap.length, getNodePosition, renderEdge]);
 
   const levels = Math.ceil(Math.log2(heap.length + 1));
   const height = levels * TREE_LAYOUT.LEVEL_HEIGHT + 100;

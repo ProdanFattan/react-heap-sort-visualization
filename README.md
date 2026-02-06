@@ -184,7 +184,7 @@ _The application loads with 30 pre-populated people, organized as a max-heap by 
 - Binary tree layout with proper spacing
 - Node connections (parent-child relationships)
 - Person ID and weight displayed on each node
-- Root node shows maximum weight (150 kg)
+- Root node shows maximum weight
 - Statistics dashboard showing heap size
 - Dark mode theme
 
@@ -192,7 +192,7 @@ _The application loads with 30 pre-populated people, organized as a max-heap by 
 
 ### 2. Adding a New Person - Heapify-Up Animation
 
-![Adding Person Animation](./docs/screenshots/add-person-animation.gif)
+![Adding Person Animation](./docs/screenshots/add-person-animation.mp4)
 
 _Adding a person with 120 kg weight - watch it bubble up through the heap_
 
@@ -215,14 +215,14 @@ _Adding a person with 120 kg weight - watch it bubble up through the heap_
 
 ### 3. Heap Sort Process - Step-by-Step Visualization
 
-![Heap Sort Steps](./docs/screenshots/heap-sort-steps.gif)
+![Heap Sort Steps](./docs/screenshots/heap-sort-steps.mp4)
 
 _Complete heap sort visualization with playback controls_
 
 **What's shown:**
 
 1. **Extraction Phase:**
-   - Root (maximum) highlighted in red
+   - Root (maximum) highlighted in (cyan/blue)
    - Moves to sorted list
 
 2. **Heapify-Down Phase:**
@@ -275,7 +275,6 @@ _Clicking on a node shows comprehensive information_
 
 <div style="display: flex; gap: 20px;">
   <img src="./docs/screenshots/mobile-portrait.png" alt="Mobile Portrait" width="200"/>
-  <img src="./docs/screenshots/mobile-landscape.png" alt="Mobile Landscape" width="400"/>
   <img src="./docs/screenshots/tablet.png" alt="Tablet View" width="300"/>
 </div>
 
@@ -295,14 +294,3 @@ _Fully responsive across all devices_
 ![Light Mode](./docs/screenshots/light-mode.png)
 
 _Toggle between dark and light themes with smooth transitions_
-
----
-
-> **Note:** To capture your own screenshots:
->
-> 1. Run `npm run dev`
-> 2. Navigate to `http://localhost:3000`
-> 3. Use browser developer tools or screen capture software
-> 4. Save images to `./docs/screenshots/` directory
-
----

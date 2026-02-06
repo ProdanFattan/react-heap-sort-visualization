@@ -11,8 +11,9 @@ import { Modal } from "../app/components/Modal";
 import { PlaybackControls } from "../app/components/PlaybackControls";
 
 export default function HeapVisualizer() {
-  const [heap, setHeap] = useState([]);
-  const [heapInstance, setHeapInstance] = useState(null);
+  // Initialize heap with lazy initialization to avoid setState in effect
+  const [heapInstance, setHeapInstance] = useState(() => new MaxHeap(INITIAL_DATA));
+  const [heap, setHeap] = useState(() => new MaxHeap(INITIAL_DATA).getHeap());
   const [nextId, setNextId] = useState(31);
   const [highlighted, setHighlighted] = useState([]);
   const [sortedData, setSortedData] = useState([]);
@@ -38,13 +39,6 @@ export default function HeapVisualizer() {
     return () => {
       isMountedRef.current = false;
     };
-  }, []);
-
-  // Initialize heap
-  useEffect(() => {
-    const newHeap = new MaxHeap(INITIAL_DATA);
-    setHeapInstance(newHeap);
-    setHeap(newHeap.getHeap());
   }, []);
 
   // Reset to initial data
@@ -220,6 +214,8 @@ export default function HeapVisualizer() {
   }, []);
 
   // Auto-advance steps when playing
+  // Intentional setState in effect for animation loop management
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (!isPlaying || isPaused || currentStepIndex === -1) return;
     if (currentStepIndex >= sortSteps.length) {
@@ -245,13 +241,25 @@ export default function HeapVisualizer() {
 
     return () => clearTimeout(timer);
   }, [isPlaying, isPaused, currentStepIndex, sortSteps, executeStep, animationSpeed]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Playback controls
   const handlePlayPause = useCallback(() => {
     if (!isSorting) return;
-    setIsPaused((prev) => !prev);
-    if (isPaused) setIsPlaying(true);
-  }, [isSorting, isPaused]);
+
+    if (isPaused) {
+      // When resuming from pause, advance to next step instead of re-executing current
+      setIsPaused(false);
+      setIsPlaying(true);
+      if (currentStepIndex < sortSteps.length - 1) {
+        setCurrentStepIndex((prev) => prev + 1);
+      }
+    } else {
+      // When pausing, just set isPaused
+      setIsPaused(true);
+      setIsPlaying(false);
+    }
+  }, [isSorting, isPaused, currentStepIndex, sortSteps.length]);
 
   const handleStepForward = useCallback(() => {
     if (currentStepIndex < sortSteps.length - 1) {
@@ -422,6 +430,7 @@ export default function HeapVisualizer() {
                 onAdd={handleAddPerson}
                 nextId={nextId}
                 darkMode={darkMode}
+                disabled={isSorting}
               />
             </div>
 
@@ -451,7 +460,7 @@ export default function HeapVisualizer() {
 
                 <button
                   onClick={handleReset}
-                  disabled={isSorting}
+                  disabled={isSorting && !isPaused}
                   className={`w-full py-3 rounded-lg font-bold transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed
                     ${
                       darkMode

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { VALIDATION } from "../utils/animationConfig";
 
-export const AddPersonForm = ({ onAdd, nextId, darkMode }) => {
+export const AddPersonForm = ({ onAdd, nextId, darkMode, disabled = false }) => {
   const [weight, setWeight] = useState("");
   const [error, setError] = useState("");
 
@@ -44,12 +44,13 @@ export const AddPersonForm = ({ onAdd, nextId, darkMode }) => {
           value={weight}
           onChange={(e) => setWeight(e.target.value)}
           placeholder="Enter weight..."
+          disabled={disabled}
           className={`w-full px-4 py-3 rounded-lg font-mono text-lg transition-all
             ${
               darkMode
                 ? "bg-slate-800 border-2 border-slate-700 text-white focus:border-cyan-500"
                 : "bg-white border-2 border-slate-300 text-slate-900 focus:border-blue-500"
-            } focus:outline-none`}
+            } ${disabled ? "opacity-50 cursor-not-allowed" : ""} focus:outline-none`}
         />
       </div>
 
@@ -65,7 +66,8 @@ export const AddPersonForm = ({ onAdd, nextId, darkMode }) => {
 
       <button
         type="submit"
-        className={`w-full py-3 rounded-lg font-bold text-lg transition-all transform hover:scale-105 active:scale-95
+        disabled={disabled}
+        className={`w-full py-3 rounded-lg font-bold text-lg transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
           ${
             darkMode
               ? "bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-lg shadow-cyan-900/50"
