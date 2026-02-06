@@ -128,16 +128,6 @@ npm run build
 npm start
 ```
 
-### Other Commands
-
-```bash
-# Run linter
-npm run lint
-
-# Run type checking (if using TypeScript)
-npm run type-check
-```
-
 ---
 
 ## 📖 Usage
