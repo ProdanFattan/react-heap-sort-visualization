@@ -318,8 +318,8 @@ export default function HeapVisualizer() {
     <div
       className={`min-h-screen transition-colors duration-300 ${
         darkMode
-          ? "bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"
-          : "bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50"
+          ? "bg-linear-to-br from-slate-900 via-slate-800 to-slate-900"
+          : "bg-linear-to-br from-slate-50 via-blue-50 to-purple-50"
       }`}
     >
       <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -451,8 +451,8 @@ export default function HeapVisualizer() {
                   className={`w-full py-3 rounded-lg font-bold transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
                     ${
                       darkMode
-                        ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white shadow-lg shadow-purple-900/50"
-                        : "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg shadow-purple-500/50"
+                        ? "bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white shadow-lg shadow-purple-900/50"
+                        : "bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg shadow-purple-500/50"
                     }`}
                 >
                   {isSorting ? "Sorting..." : "Run Heap Sort"}

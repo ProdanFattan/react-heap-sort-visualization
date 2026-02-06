@@ -72,8 +72,8 @@ export const PlaybackControls = ({
           className={`flex-1 py-3 rounded-lg font-bold transition-all transform hover:scale-105 active:scale-95
             ${
               darkMode
-                ? "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white shadow-lg shadow-purple-900/50"
-                : "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg shadow-purple-500/50"
+                ? "bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white shadow-lg shadow-purple-900/50"
+                : "bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg shadow-purple-500/50"
             }`}
         >
           {isPaused ? "▶ Play" : "⏸ Pause"}
