@@ -98,7 +98,7 @@ When clicking any node, view:
 
    ```bash
    git clone <repository-url>
-   cd react-heap-sort-visualization/my-app
+   cd react-heap-sort-visualization
    ```
 
 2. **Install dependencies**
