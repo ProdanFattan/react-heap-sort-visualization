@@ -35,36 +35,43 @@ export const HeapTreeVisualization = ({
       const isHighlightedEdge =
         highlighted.includes(parentIndex) && highlighted.includes(childIndex);
 
+      const strokeColor = isSwappingEdge
+        ? darkMode ? "stroke-green-400" : "stroke-green-500"
+        : isComparingEdge
+          ? darkMode ? "stroke-yellow-400" : "stroke-yellow-500"
+          : isHighlightedEdge
+            ? darkMode ? "stroke-cyan-400" : "stroke-blue-500"
+            : darkMode ? "stroke-slate-700" : "stroke-slate-300";
+
+      const strokeWidth = isSwappingEdge || isComparingEdge ? 4 : TREE_LAYOUT.EDGE_WIDTH_DEFAULT;
+      const opacity = isSwappingEdge || isComparingEdge || isHighlightedEdge ? "opacity-100" : "opacity-40";
+
       return (
-        <line
-          key={`line-${parentIndex}-${childIndex}`}
-          x1={`${parentPos.x}%`}
-          y1={parentPos.y}
-          x2={`${childPos.x}%`}
-          y2={childPos.y}
-          className={`${
-            isSwappingEdge
-              ? darkMode
-                ? "stroke-green-400"
-                : "stroke-green-500"
-              : isComparingEdge
-                ? darkMode
-                  ? "stroke-yellow-400"
-                  : "stroke-yellow-500"
-                : isHighlightedEdge
-                  ? darkMode
-                    ? "stroke-cyan-400"
-                    : "stroke-blue-500"
-                  : darkMode
-                    ? "stroke-slate-700"
-                    : "stroke-slate-300"
-          } transition-all duration-300`}
-          strokeWidth={
-            isSwappingEdge || isComparingEdge
-              ? TREE_LAYOUT.EDGE_WIDTH_HIGHLIGHTED
-              : TREE_LAYOUT.EDGE_WIDTH_DEFAULT
-          }
-        />
+        <g key={`line-group-${parentIndex}-${childIndex}`}>
+          {/* Glow effect for active edges */}
+          {(isSwappingEdge || isComparingEdge || isHighlightedEdge) && (
+            <line
+              x1={`${parentPos.x}%`}
+              y1={parentPos.y}
+              x2={`${childPos.x}%`}
+              y2={childPos.y}
+              className={`${strokeColor} transition-all duration-500`}
+              strokeWidth={strokeWidth + 4}
+              opacity="0.3"
+              filter="blur(4px)"
+            />
+          )}
+          {/* Main edge */}
+          <line
+            x1={`${parentPos.x}%`}
+            y1={parentPos.y}
+            x2={`${childPos.x}%`}
+            y2={childPos.y}
+            className={`${strokeColor} ${opacity} transition-all duration-500`}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+          />
+        </g>
       );
     },
     [swappingNodes, comparingNodes, highlighted, darkMode]
