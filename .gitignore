@@ -16,7 +16,11 @@
 # next.js
 /.next/
 /out/
-
+OPTIMIZATION_REPORT.md
+tmpclaude-3d2f-cwd
+tmpclaude-9f87-cwd
+tmpclaude-609a-cwd
+tmpclaude-b30e-cwd
 # production
 /build
 
